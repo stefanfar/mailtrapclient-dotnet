@@ -16,7 +16,6 @@ using Mailtrap;
  * and obtain a token that is authorized to send from the domain.
  */
 
-
 const token = "<YOUR-TOKEN-HERE>";
 const senderEmail = "<SENDER@YOURDOMAIN.COM>";
 const recipientEmail = "<RECIPIENT@EMAIL.COM>";
@@ -37,9 +36,9 @@ mailtrapClient.SendAsync(mail).Wait();
 
 ### Creating the MailtrapClient
 
-As seen in the example above, the simplest method is passing the token directly to the constructor, which can be used in .NET Framework and .NET:
+As seen in the example above, the simplest method is passing the token directly to the constructor, method which can be used in .NET Framework and .NET:
 ```cs
-var mailtrapClient = new MailtrapClient(token);
+var mailtrapClient = new MailtrapClient("<YOUR-TOKEN-HERE>");
 ```
 
 By using the dependency injection build into .NET, the MailtrapClient service can be registered using the following extension method:
@@ -47,22 +46,33 @@ By using the dependency injection build into .NET, the MailtrapClient service ca
 builder.Services.AddMailtrap();
 ```
 
-This approach offer more flexibility, since the MailtrapClient configuration is retrieved from the application settings:
+This approach offers more flexibility, since the MailtrapClient configuration is retrieved from the application settings:
 ```json
   "Mailtrap": {
     "Token": "<YOUR-TOKEN-HERE>",
     "AuthorizationType": "ApiKey",
-    "SendingEnpoint": "<CUSTOM-SENDING-ENDPOINT>"
+    "SendingEnpoint": "<SENDING-ENDPOINT>"
   }
 ```
 
-Refer to the [`examples`](examples) folder for the source code of this and other advanced examples.
+Alternatively, the configuration can be provided using the options pattern:
+```cs
+builder.Services.AddMailtrap(options =>
+{
+    options.Token = "<YOUR-TOKEN-HERE>";
+    options.SendingEnpoint = "<SENDING-ENDPOINT>";
+});
+```
 
-### General API
+Refer to the [`DotNETFrameworkConsoleApp`](DotNETFrameworkConsoleApp) and [`DotNETWebApplication`](DotNETWebApplication) projects for examples of how to use the service.
 
- - [List User & Invite account accesses](examples/general/account-accesses.ts)
- - [Remove account access](examples/general/accounts.ts)
- - [Permissions](examples/general/permissions.ts)
+### Retry mechanism
+
+In the case that the sending request fails with a status codes >= 500 (server errors) or status code 408 (request timeout), the sending is retried one more time.
+
+### Logging
+
+MailtrapClient uses the ILogger interface, received through dependency injection, allowing the configured logging provider to receive logs from the mailing service.
 
 ### Sending API
 
