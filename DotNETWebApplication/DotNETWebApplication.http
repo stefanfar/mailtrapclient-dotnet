@@ -1,0 +1,6 @@
+@WebApplication1_HostAddress = http://localhost:5062
+
+post {{WebApplication1_HostAddress}}/cart/
+Accept: application/json
+
+###

@@ -1,4 +1,6 @@
 ﻿using Mailtrap.Validators;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mailtrap
 {
@@ -6,7 +8,7 @@ namespace Mailtrap
     {
         private static MailValidator _context = new MailValidator();
 
-        public static bool TryValidateMail1(Mail mail, out ICollection<string>? validationResults)
+        public static bool TryValidateMail(Mail mail, out ICollection<string> validationResults)
         {
             var results = _context.Validate(mail);
 

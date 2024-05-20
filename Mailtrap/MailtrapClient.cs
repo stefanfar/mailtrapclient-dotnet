@@ -2,11 +2,14 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Mailtrap
 {
@@ -27,9 +30,9 @@ namespace Mailtrap
             _mailtrapOptions = mailtrapOptions;
             _logger = logger;
 
-            if (mailtrapOptions.Timeout.HasValue)
+            if (mailtrapOptions.Timeout != default)
             {
-                _httpClient.Timeout = mailtrapOptions.Timeout.Value;
+                _httpClient.Timeout = mailtrapOptions.Timeout;
             }
 
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -59,11 +62,11 @@ namespace Mailtrap
         {
         }
 
-        public async Task<MailResponse?> SendAsync(Mail mail)
+        public async Task<MailResponse> SendAsync(Mail mail)
         {
             var serializedMail = JsonSerializer.Serialize(mail, _serializationOptions);
 
-            using StringContent jsonContent = new StringContent(serializedMail)
+            StringContent jsonContent = new StringContent(serializedMail)
             {
                 Headers =
                 {
@@ -71,20 +74,21 @@ namespace Mailtrap
                 }
             };
 
-            using HttpResponseMessage httpResponseMessage = await _httpClient.PostAsync(
-                _mailtrapOptions.SendingEnpoint ?? Constants.SendingEndpoint,
-                jsonContent);
+            using (var httpResponseMessage = await _httpClient.PostAsync(_mailtrapOptions.SendingEnpoint ?? Constants.SendingEndpoint, jsonContent))
+            {
+                _logger.LogInformation(Constants.MessageSuccesfullySent);
 
-            _logger.LogInformation(Constants.MessageSuccesfullySent);
+                var mailResponseString = await httpResponseMessage.Content.ReadAsStringAsync();
+                var mailResponse = JsonSerializer.Deserialize<MailResponse>(mailResponseString);
 
-            var mailResponse = await httpResponseMessage.Content.ReadFromJsonAsync<MailResponse>();
-            mailResponse ??= new MailResponse() { Success = false, Errors = new List<string> { Constants.NoResponseReceived } };
-            mailResponse.StatusCode = httpResponseMessage.StatusCode;
+                mailResponse = mailResponse ?? new MailResponse() { Success = false, Errors = new List<string> { Constants.NoResponseReceived } };
+                mailResponse.StatusCode = httpResponseMessage.StatusCode;
 
-            var res = await httpResponseMessage.Content.ReadAsStringAsync();
-            Console.WriteLine($"{res}\n");
+                Console.WriteLine($"{mailResponseString}\n");
 
-            return mailResponse;
+                return mailResponse;
+            }
+
         }
     }
 }

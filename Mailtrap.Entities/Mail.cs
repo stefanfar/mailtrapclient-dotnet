@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Mailtrap
 {
@@ -12,26 +8,26 @@ namespace Mailtrap
     {
         [JsonPropertyName("to")]
         [Required]
-        public ICollection<Address>? To { get; set; }
+        public ICollection<Address> To { get; set; }
 
         [JsonPropertyName("from")]
         [Required(ErrorMessage = "Property From is mandatory")]
-        public Address? From { get; set; }
+        public Address From { get; set; }
 
         [JsonPropertyName("subject")]
         [Required(ErrorMessage = "Property Subject is mandatory")]
-        public string? Subject { get; set; }
+        public string Subject { get; set; }
 
         [JsonPropertyName("text")]
-        public string? Text { get; set; }
+        public string Text { get; set; }
 
         [JsonPropertyName("html")]
-        public string? Html { get; set; }
+        public string Html { get; set; }
 
         [JsonPropertyName("category")]
-        public string? Category { get; set; }
+        public string Category { get; set; }
 
         [JsonPropertyName("attachments")]
-        public ICollection<Attachment>? Attachments { get; set; }
+        public ICollection<Attachment> Attachments { get; set; }
     }
 }

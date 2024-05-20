@@ -1,10 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.Threading.Tasks;
 
 namespace Mailtrap
 {
     public interface IMailtrapClient
     {
-        Task<MailResponse?> SendAsync(Mail mail);
+        Task<MailResponse> SendAsync(Mail mail);
     }
 }

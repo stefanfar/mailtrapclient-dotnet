@@ -1,5 +1,4 @@
 using Mailtrap;
-using System.Net;
 
 namespace MailTrap.Tests
 {
@@ -25,7 +24,7 @@ namespace MailTrap.Tests
 
             var mailtrapClient = new MailtrapClient("28d19bd81273e770522fee5b9fbeb2ed");
 
-            var isValid = MailtrapValidator.TryValidateMail1(mail, out var errors);
+            var isValid = MailtrapValidator.TryValidateMail(mail, out var errors);
 
             Assert.That(isValid, Is.False);
             Assert.That(errors, Is.Not.Null);
