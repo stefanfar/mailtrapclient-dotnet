@@ -2,7 +2,7 @@
 
 namespace Mailtrap.Validators
 {
-    public class MailValidator : AbstractValidator<Mail>
+    internal class MailValidator : AbstractValidator<Mail>
     {
         public MailValidator()
         {

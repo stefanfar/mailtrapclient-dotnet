@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddMailtrap();
 builder.Services.AddMailtrap(options =>
 {
-    options.Token = "fc93772517a75afa21bb3c49ce7bdf75";
+    options.Token = "1ca2a4a7-fc0a-441f-b9f9-6633f2a246ef";
     options.SendingEnpoint = "https://stoplight.io/mocks/railsware/mailtrap-api-docs/93404133/api/send";
 });
 

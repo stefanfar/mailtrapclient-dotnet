@@ -1,4 +1,5 @@
 using Mailtrap;
+using Mailtrap.Validators;
 
 namespace MailTrap.Tests
 {
@@ -29,11 +30,11 @@ namespace MailTrap.Tests
             Assert.That(isValid, Is.False);
             Assert.That(errors, Is.Not.Null);
             Assert.That(errors.Count, Is.EqualTo(5));
-            Assert.That(errors.ElementAt(0), Is.EqualTo("The property To is required"));
-            Assert.That(errors.ElementAt(1), Is.EqualTo("The property From is required"));
-            Assert.That(errors.ElementAt(2), Is.EqualTo("The property Text should not be set because the property Html is set"));
-            Assert.That(errors.ElementAt(3), Is.EqualTo("The property Content is required"));
-            Assert.That(errors.ElementAt(4), Is.EqualTo("The property Filename is required"));
+            Assert.That(errors.ElementAt(0), Is.EqualTo("The property To is required."));
+            Assert.That(errors.ElementAt(1), Is.EqualTo("The property From is required."));
+            Assert.That(errors.ElementAt(2), Is.EqualTo("The property Text should not be set because the property Html is set."));
+            Assert.That(errors.ElementAt(3), Is.EqualTo("The property Content is required."));
+            Assert.That(errors.ElementAt(4), Is.EqualTo("The property Filename is required."));
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Mailtrap
@@ -7,15 +6,15 @@ namespace Mailtrap
     public class Mail
     {
         [JsonPropertyName("to")]
-        [Required]
+        [JsonRequired]
         public ICollection<Address> To { get; set; }
 
         [JsonPropertyName("from")]
-        [Required(ErrorMessage = "Property From is mandatory")]
+        [JsonRequired]
         public Address From { get; set; }
 
         [JsonPropertyName("subject")]
-        [Required(ErrorMessage = "Property Subject is mandatory")]
+        [JsonRequired]
         public string Subject { get; set; }
 
         [JsonPropertyName("text")]

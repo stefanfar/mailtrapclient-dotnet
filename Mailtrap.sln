@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{74EEDD4F-3BAC-40D6-ADF2-EAD99F4E3B9C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mailtrap.Tests", "MailTrap.Tests\Mailtrap.Tests.csproj", "{81818D8C-568D-4F43-856A-EBFCBE670FEC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNETWebApplication", "DotNETWebApplication\DotNETWebApplication.csproj", "{3ECF7AF3-7472-4222-9CAD-F100FD6A6902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mailtrap.Entities", "Mailtrap.Entities\Mailtrap.Entities.csproj", "{017B20D5-0852-4975-AF3C-B42170D9F617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mailtrap.Entities", "Mailtrap.Entities\Mailtrap.Entities.csproj", "{017B20D5-0852-4975-AF3C-B42170D9F617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mailtrap", "Mailtrap\Mailtrap.csproj", "{F55181ED-3104-4475-B88C-70A7C63A06C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mailtrap", "Mailtrap\Mailtrap.csproj", "{F55181ED-3104-4475-B88C-70A7C63A06C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNETFrameworkConsoleApp", "DotNETFrameworkConsoleApp\DotNETFrameworkConsoleApp.csproj", "{06A2EB50-82DB-422C-93C1-3E922CE400DF}"
 EndProject
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74EEDD4F-3BAC-40D6-ADF2-EAD99F4E3B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74EEDD4F-3BAC-40D6-ADF2-EAD99F4E3B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74EEDD4F-3BAC-40D6-ADF2-EAD99F4E3B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74EEDD4F-3BAC-40D6-ADF2-EAD99F4E3B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81818D8C-568D-4F43-856A-EBFCBE670FEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81818D8C-568D-4F43-856A-EBFCBE670FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81818D8C-568D-4F43-856A-EBFCBE670FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU

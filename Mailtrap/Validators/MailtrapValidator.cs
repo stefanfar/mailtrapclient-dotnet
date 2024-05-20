@@ -1,8 +1,7 @@
-﻿using Mailtrap.Validators;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Mailtrap
+namespace Mailtrap.Validators
 {
     public static class MailtrapValidator
     {

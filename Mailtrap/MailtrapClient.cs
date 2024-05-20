@@ -1,4 +1,5 @@
 ﻿using Mailtrap.Entities;
+using Mailtrap.Validators;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -47,14 +48,15 @@ namespace Mailtrap
             }
         }
 
-        public MailtrapClient(HttpClient httpClient, IOptions<MailtrapOptions> mailtrapOptions, ILogger<MailtrapClient> logger) : this(httpClient, mailtrapOptions.Value, logger)
+        public MailtrapClient(string token) : this(new HttpClient(), new MailtrapOptions { Token = token }, new NullLogger<MailtrapClient>())
         {
         }
 
         public MailtrapClient(string token, ILogger<MailtrapClient> logger) : this(new HttpClient(), new MailtrapOptions { Token = token }, logger)
         {
         }
-        public MailtrapClient(string token) : this(new HttpClient(), new MailtrapOptions { Token = token }, new NullLogger<MailtrapClient>())
+
+        public MailtrapClient(MailtrapOptions mailtrapOptions) : this(new HttpClient(), mailtrapOptions, new NullLogger<MailtrapClient>())
         {
         }
 
@@ -62,11 +64,25 @@ namespace Mailtrap
         {
         }
 
+        public MailtrapClient(HttpClient httpClient, IOptions<MailtrapOptions> mailtrapOptions, ILogger<MailtrapClient> logger) : this(httpClient, mailtrapOptions.Value, logger)
+        {
+        }
+
         public async Task<MailResponse> SendAsync(Mail mail)
         {
+            if (mail == null)
+            {
+                throw new ArgumentNullException(nameof(mail));
+            }
+
+            if (!MailtrapValidator.TryValidateMail(mail, out var validationResults))
+            {
+                throw new ArgumentException(string.Join(Environment.NewLine, validationResults), nameof(mail));
+            }
+
             var serializedMail = JsonSerializer.Serialize(mail, _serializationOptions);
 
-            StringContent jsonContent = new StringContent(serializedMail)
+            var jsonContent = new StringContent(serializedMail)
             {
                 Headers =
                 {
@@ -84,11 +100,8 @@ namespace Mailtrap
                 mailResponse = mailResponse ?? new MailResponse() { Success = false, Errors = new List<string> { Constants.NoResponseReceived } };
                 mailResponse.StatusCode = httpResponseMessage.StatusCode;
 
-                Console.WriteLine($"{mailResponseString}\n");
-
                 return mailResponse;
             }
-
         }
     }
 }
