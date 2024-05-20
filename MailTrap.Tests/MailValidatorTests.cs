@@ -1,4 +1,4 @@
-using Mailtrap;
+using Mailtrap.Entities;
 using Mailtrap.Validators;
 
 namespace MailTrap.Tests
@@ -17,13 +17,11 @@ namespace MailTrap.Tests
 
             var mail = new Mail
             {
-                Text = "Mail text",
+                Text = "Congratulations on your order no. 1234",
                 Html = "<p>Congratulations on your order no. <strong>1234</strong>.</p>",
                 Category = "API test",
                 Attachments = new List<Attachment> { attachment }
             };
-
-            var mailtrapClient = new MailtrapClient("28d19bd81273e770522fee5b9fbeb2ed");
 
             var isValid = MailtrapValidator.TryValidateMail(mail, out var errors);
 

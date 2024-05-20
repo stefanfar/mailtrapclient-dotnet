@@ -1,4 +1,5 @@
 ﻿using Mailtrap;
+using Mailtrap.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -8,20 +9,18 @@ namespace DotNETFrameworkConsoleApp
     {
         static void Main(string[] args)
         {
-            var mail = new Mailtrap.MailtrapClient("fc93772517a75afa21bb3c49ce7bdf75");
+            var mailtrapClient = new MailtrapClient("fc93772517a75afa21bb3c49ce7bdf75");
 
-            var mailparams = new Mail
+            var mail = new Mail
             {
-                To = new List<Address> { new Address { Email = "4plx4.test@inbox.testmail.app", Name = "abc" } },
-                From = new Address { Email = "stefan.farcas9@gmail.com", Name = "abc" },
-                Subject = "subiect",
-                //Text = "un text",
-                Html = "<!doctype html><p>a</p>",
+                To = new List<Address> { new Address { Email = "john_doe@example.com", Name = "John Doe" } },
+                From = new Address { Email = "sales@example.com", Name = "Example Sales Team" },
+                Subject = "Your Example Order Confirmation",
+                Html = "<p>Congratulations on your order no. <strong>1234</strong>.</p>",
                 Category = "API test"
             };
 
-
-            mail.SendAsync(mailparams).Wait();
+            mailtrapClient.SendAsync(mail).Wait();
 
             Console.ReadLine();
         }

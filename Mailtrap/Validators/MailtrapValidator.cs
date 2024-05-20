@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mailtrap.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mailtrap.Validators

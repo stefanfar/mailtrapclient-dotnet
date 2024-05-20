@@ -1,4 +1,5 @@
 using Mailtrap.Configuration;
+using Mailtrap.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +9,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddMailtrap("fc93772517a75afa21bb3c49ce7bdf75");
+// Option 1
+// The options must be set in the application settings
 //builder.Services.AddMailtrap();
+
+// Option 2
 builder.Services.AddMailtrap(options =>
 {
-    options.Token = "1ca2a4a7-fc0a-441f-b9f9-6633f2a246ef";
-    options.SendingEnpoint = "https://stoplight.io/mocks/railsware/mailtrap-api-docs/93404133/api/send";
+    options.Token = "<YOUR-TOKEN-HERE>"; // required
+    options.SendingEnpoint = "<SENDING-ENDPOINT>";
+    options.AuthorizationType = AuthorizationType.BearerAuth;
 });
 
 var app = builder.Build();

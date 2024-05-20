@@ -1,4 +1,5 @@
 using Mailtrap;
+using Mailtrap.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers
@@ -7,11 +8,6 @@ namespace WebApplication1.Controllers
     [Route("[controller]")]
     public class CartController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<CartController> _logger;
         private readonly IMailtrapClient _mailtrapClient;
 
@@ -22,20 +18,25 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public void Pay()
+        public async Task Pay()
         {
-            var mailparams = new Mail
+            var mail = new Mail
             {
-                To = new List<Address> { new Address { Email = "4plx4.test@inbox.testmail.app", Name = "abc" } },
-                From = new Address { Email = "stefan.farcas9@gmail.com", Name = "abc" },
-                Subject = "subiect",
-                //Text = "un text",
-                Html = "<!doctype html><p>a</p>",
+                To = new List<Address> { new Address { Email = "john_doe@example.com", Name = "John Doe" } },
+                From = new Address { Email = "sales@example.com", Name = "Example Sales Team" },
+                Subject = "Your Example Order Confirmation",
+                Html = "<p>Congratulations on your order no. <strong>1234</strong>.</p>",
                 Category = "API test"
             };
 
-
-            _mailtrapClient.SendAsync(mailparams).Wait();
+            try
+            {
+                await _mailtrapClient.SendAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Sending the email failed");
+            }
         }
     }
 }

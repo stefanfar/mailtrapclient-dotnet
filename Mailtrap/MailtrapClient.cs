@@ -16,8 +16,8 @@ namespace Mailtrap
 {
     public class MailtrapClient : IMailtrapClient
     {
-        private readonly MailtrapOptions _mailtrapOptions;
         private readonly HttpClient _httpClient;
+        private readonly MailtrapOptions _mailtrapOptions;
         private readonly ILogger _logger;
         private readonly JsonSerializerOptions _serializationOptions = new JsonSerializerOptions
         {
@@ -27,9 +27,14 @@ namespace Mailtrap
 
         private MailtrapClient(HttpClient httpClient, MailtrapOptions mailtrapOptions, ILogger logger)
         {
-            _httpClient = httpClient;
-            _mailtrapOptions = mailtrapOptions;
-            _logger = logger;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _mailtrapOptions = mailtrapOptions ?? throw new ArgumentNullException(nameof(mailtrapOptions));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            if (string.IsNullOrEmpty(_mailtrapOptions.Token))
+            {
+                throw new ArgumentException(Constants.TokenIsRequired);
+            }
 
             if (mailtrapOptions.Timeout != default)
             {
@@ -68,6 +73,7 @@ namespace Mailtrap
         {
         }
 
+        /// <inheritdoc/>
         public async Task<MailResponse> SendAsync(Mail mail)
         {
             if (mail == null)

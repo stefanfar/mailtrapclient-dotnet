@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Mailtrap
+namespace Mailtrap.Entities
 {
     public class Attachment
     {

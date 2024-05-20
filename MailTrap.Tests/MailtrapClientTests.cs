@@ -5,29 +5,30 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
 using System.Net;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace MailTrap.Tests
 {
     [TestFixture]
     public class MailtrapClientTests
     {
-        private string _token = "1ca2a4a7-fc0a-441f-b9f9-6633f2a246ef";
-        private string _sendingEnpoint = "https://stoplight.io/mocks/railsware/mailtrap-api-docs/93404133/api/send";
-        private Mock<HttpMessageHandler> _httpMessageHandlerMock;
-
-        [SetUp]
-        public void Setup()
-        {
-            _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        }
 
         [Test]
         public void SendAsync_WithNullArgument_ReturnsArgumentNullException()
         {
-            var mailtrapClient = new MailtrapClient(_token);
+            var mailtrapOptions = new MailtrapOptions()
+            {
+                Token = "123456789"
+            };
+
+            var mailResponse = new MailResponse
+            {
+                Success = true,
+                MessageIds = ["0c7fd939-02cf-11ed-88c2-0a58a9feac02"]
+            };
+
+            var mailtrapClient = CreateMailtrapClient(mailtrapOptions, mailResponse);
+
             var exception = Assert.ThrowsAsync<ArgumentNullException>(() => mailtrapClient.SendAsync(null));
 
             Assert.That(exception, Is.Not.Null);
@@ -51,7 +52,19 @@ namespace MailTrap.Tests
                 Attachments = new List<Attachment> { attachment }
             };
 
-            var mailtrapClient = new MailtrapClient(_token);
+            var mailtrapOptions = new MailtrapOptions()
+            {
+                Token = "123456789"
+            };
+
+            var mailResponse = new MailResponse
+            {
+                Success = true,
+                MessageIds = ["0c7fd939-02cf-11ed-88c2-0a58a9feac02"]
+            };
+
+            var mailtrapClient = CreateMailtrapClient(mailtrapOptions, mailResponse);
+
             var exception = Assert.ThrowsAsync<ArgumentException>(() => mailtrapClient.SendAsync(mail));
 
             Assert.That(exception, Is.Not.Null);
@@ -70,12 +83,6 @@ namespace MailTrap.Tests
             var mailtrapOptions = new MailtrapOptions()
             {
                 Token = "123456789"
-            };
-
-            var _serializationOptions = new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
 
             var mailResponse = new MailResponse
@@ -97,7 +104,9 @@ namespace MailTrap.Tests
         {
             var serializedMailResponse = JsonSerializer.Serialize(mailResponse);
 
-            _httpMessageHandlerMock
+            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
+
+            httpMessageHandlerMock
             .Protected()
             .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
@@ -108,7 +117,7 @@ namespace MailTrap.Tests
                 Content = new StringContent(serializedMailResponse)
             });
 
-            var httpClient = new HttpClient(_httpMessageHandlerMock.Object);
+            var httpClient = new HttpClient(httpMessageHandlerMock.Object);
             var options = Options.Create(mailtrapOptions);
             var logger = new NullLogger<MailtrapClient>();
 

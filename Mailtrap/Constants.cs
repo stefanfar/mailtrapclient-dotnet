@@ -1,8 +1,11 @@
-﻿namespace Mailtrap
+﻿using Mailtrap.Entities;
+
+namespace Mailtrap
 {
     public sealed class Constants
     {
         public static string SendingEndpoint = "https://send.api.mailtrap.io/api/send";
+        public static string TokenIsRequired = $"The token is required.";
         public static string ToIsRequired = $"The property {nameof(Mail.To)} is required.";
         public static string FromIsRequired = $"The property {nameof(Mail.From)} is required.";
         public static string TextIsRequiredWhenHtmlIsMissing = $"The property {nameof(Mail.Text)} is required in the absence of {nameof(Mail.Html)}.";
