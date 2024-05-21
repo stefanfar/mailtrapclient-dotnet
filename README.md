@@ -84,3 +84,12 @@ The token is required when creating an instance of [MailtrapClient](https://lear
 There are two types of authorization which can be configured: Api-token and Bearer authorization.
 
 When working with a .NET application, it is recommended to register the library in configuration through the provided extension method, due to known limitations of [HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=netstandard-2.0), which is used behind the scenes ([Guidelines for using HttpClient](https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient-guidelines)).
+
+The message serialization was done using the [System.Text.Json](https://learn.microsoft.com/en-us/dotnet/api/system.text.json?view=netstandard-2.0) library.
+
+Possible exceptions thrown by the [SendAsync](https://github.com/stefanfar/Mailtrap/blob/master/Mailtrap/MailtrapClient.cs) method: 
+[ArgumentException](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception?view=netstandard-2.0), 
+[ArgumentNullException](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception?view=netstandard-2.0), 
+[NotSupportedException](https://learn.microsoft.com/en-us/dotnet/api/system.notsupportedexception?view=netstandard-2.0), 
+[HttpRequestException](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httprequestexception?view=netstandard-2.0), 
+[JsonException](https://learn.microsoft.com/en-us/dotnet/api/system.text.json.jsonexception?view=netstandard-2.0)
