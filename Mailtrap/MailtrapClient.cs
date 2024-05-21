@@ -69,7 +69,7 @@ namespace Mailtrap
         {
         }
 
-        public MailtrapClient(HttpClient httpClient, IOptions<MailtrapOptions> mailtrapOptions, ILogger<MailtrapClient> logger) : this(httpClient, mailtrapOptions.Value, logger)
+        public MailtrapClient(HttpClient httpClient, IOptions<MailtrapOptions> mailtrapOptions, ILogger<MailtrapClient> logger) : this(httpClient, mailtrapOptions?.Value, logger)
         {
         }
 

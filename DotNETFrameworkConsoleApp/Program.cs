@@ -9,7 +9,7 @@ namespace DotNETFrameworkConsoleApp
     {
         static void Main(string[] args)
         {
-            var mailtrapClient = new MailtrapClient("fc93772517a75afa21bb3c49ce7bdf75");
+            var mailtrapClient = new MailtrapClient("<YOUR-TOKEN-HERE>");
 
             var mail = new Mail
             {

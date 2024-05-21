@@ -12,6 +12,57 @@ namespace MailTrap.Tests
     [TestFixture]
     public class MailtrapClientTests
     {
+        [Test]
+        public void ConstructMailtrapClient_WithMissingHttpClient_ReturnsArgumentNullException()
+        {
+            var mailtrapOptions = new MailtrapOptions();
+            var options = Options.Create(new MailtrapOptions());
+            var logger = new NullLogger<MailtrapClient>();
+
+            var exception = Assert.Throws<ArgumentNullException>(() => new MailtrapClient(null, options, logger));
+
+            Assert.That(exception, Is.Not.Null);
+            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'httpClient')"));
+        }
+
+        [Test]
+        public void ConstructMailtrapClient_WithMissingOptions_ReturnsArgumentNullException()
+        {
+            var httpClient = new HttpClient();
+            var logger = new NullLogger<MailtrapClient>();
+
+            var exception = Assert.Throws<ArgumentNullException>(() => new MailtrapClient(httpClient, null, logger));
+
+            Assert.That(exception, Is.Not.Null);
+            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'mailtrapOptions')"));
+        }
+
+        [Test]
+        public void ConstructMailtrapClient_WithMissingLogger_ReturnsArgumentException()
+        {
+            var httpClient = new HttpClient();
+            var mailtrapOptions = new MailtrapOptions();
+            var options = Options.Create(new MailtrapOptions());
+
+            var exception = Assert.Throws<ArgumentNullException>(() => new MailtrapClient(httpClient, options, null));
+
+            Assert.That(exception, Is.Not.Null);
+            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'logger')"));
+        }
+
+        [Test]
+        public void ConstructMailtrapClient_WithMissingToken_ReturnsArgumentException()
+        {
+            var httpClient = new HttpClient();
+            var mailtrapOptions = new MailtrapOptions();
+            var options = Options.Create(new MailtrapOptions());
+            var logger = new NullLogger<MailtrapClient>();
+
+            var exception = Assert.Throws<ArgumentException>(() => new MailtrapClient(httpClient, options, logger));
+
+            Assert.That(exception, Is.Not.Null);
+            Assert.That(exception.Message, Is.EqualTo("The token is required."));
+        }
 
         [Test]
         public void SendAsync_WithNullArgument_ReturnsArgumentNullException()
